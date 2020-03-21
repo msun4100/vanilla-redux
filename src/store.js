@@ -1,32 +1,30 @@
 import { createStore } from "redux";
+import { createAction, createReducer } from "@reduxjs/toolkit";
 
-const ADD = "ADD";
-const DELETE = "DELETE";
+const addToDo = createAction("ADD");
+const deleteToDo = createAction("DELETE");
 
-const addToDo = text => {
-  return {
-    type: ADD,
-    text
-  };
-};
-
-const deleteToDo = id => {
-  return {
-    type: DELETE,
-    id
-  };
-};
-
-const reducer = (state = [], action) => {
+/* const reducer = (state = [], action) => {
   switch (action.type) {
-    case ADD:
-      return [{ text: action.text, id: Date.now() }, ...state];
-    case DELETE:
-      return state.filter(todo => todo.id !== action.id);
+    case addToDo.type:
+      return [{ text: action.payload, id: Date.now() }, ...state];
+    case deleteToDo.type:
+      return state.filter(todo => todo.id !== action.payload);
     default:
       return state;
   }
-};
+}; */
+
+// toolkit을 쓰면 mutate를 허용, toolkit이 기존 덮어쓰기? 기능을 대신해줌
+// state object를 mutate 해주거나, or new state obj를 리턴하면 됨
+// === addToDo는 mutation, deleteToDo는 새로운 State 리턴
+const reducer = createReducer([], {
+  [addToDo]: (state, action) => {
+    state.push({ text: action.payload, id: Date.now() });
+  },
+  [deleteToDo]: (state, action) =>
+    state.filter(todo => todo.id !== action.payload)
+});
 
 const store = createStore(reducer);
 
