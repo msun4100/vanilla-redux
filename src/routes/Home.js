@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
 import { actionCreators } from "../store";
+import Todo from "../components/ToDo";
 
+// use react-hook
 function Home({ toDos, addToDo }) {
   // console.log(rest);
-  const [text, setText] = useState(""); // react-hook
+  const [text, setText] = useState("");
   function onChange(e) {
     setText(e.target.value);
   }
@@ -22,7 +24,11 @@ function Home({ toDos, addToDo }) {
         <input type="text" value={text} onChange={onChange} />
         <button>Add</button>
       </form>
-      <ul>{JSON.stringify(toDos)}</ul>
+      <ul>
+        {toDos.map(todo => (
+          <Todo {...todo} key={todo.id} />
+        ))}
+      </ul>
     </>
   );
 }
