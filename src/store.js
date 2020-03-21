@@ -1,5 +1,5 @@
 import { createStore } from "redux";
-import { createAction, createReducer } from "@reduxjs/toolkit";
+import { createAction, createReducer, configureStore } from "@reduxjs/toolkit";
 
 const addToDo = createAction("ADD");
 const deleteToDo = createAction("DELETE");
@@ -26,7 +26,7 @@ const reducer = createReducer([], {
     state.filter(todo => todo.id !== action.payload)
 });
 
-const store = createStore(reducer);
+const store = configureStore({ reducer });
 
 // store.subscribe() //store 변동사항을 sub 하기 위해 react-redux가 필요
 
